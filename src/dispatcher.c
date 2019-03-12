@@ -7,7 +7,7 @@
 static const int TIME = 0, EVENT = 1;
 static const char *CREATE = "C", *EXIT = "E", *REQUEST = "R", *INTERRUPT = "I", *TIMER = "T";
 
-void dispatchLine(char **line) {
+void dispatch(char **line) {
    if (strcmp(line[EVENT], CREATE) == 0) {
 
    } else if (strcmp(line[EVENT], EXIT) == 0) {
@@ -25,6 +25,6 @@ void startDispatching() {
    char **processLine;
 
    while ((processLine = parseLine()) != NULL) {
-      dispatchLine(processLine);
+      dispatch(processLine);
    }
 }
