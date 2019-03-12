@@ -1,8 +1,14 @@
 #ifndef PCB_QUEUE_
 #define PCB_QUEUE_
 
+typedef enum pcbState {
+   ready,
+   running
+} pcbState;
+
 typedef struct PCB {
    int pid;
+   pcbState state;
    struct PCB *next;
 } PCB;
 
