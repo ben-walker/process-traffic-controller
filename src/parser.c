@@ -10,6 +10,11 @@ char **parseLine() {
       free(line);
       return NULL;
    }
+   line[strcspn(line, "\n")] = 0;
+   if (strlen(line) == 0) {
+      free(line);
+      return NULL;
+   }
 
    char *tok, *saved, **delimLine = malloc(sizeof(char *) * MAX_ELEMS);
    if (delimLine == NULL) {
