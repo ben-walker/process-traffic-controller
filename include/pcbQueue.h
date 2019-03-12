@@ -11,6 +11,7 @@ typedef struct PCB {
    int pid;
    pcbState state;
    struct PCB *next;
+   int runTime, readyTime, blockTime;
 } PCB;
 
 typedef struct Queue {
