@@ -2,7 +2,7 @@
 #include "parser.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "string.h"
+#include <string.h>
 
 static const int TIME = 0, EVENT = 1;
 static const char *CREATE = "C", *EXIT = "E", *REQUEST = "R", *INTERRUPT = "I", *TIMER = "T";
