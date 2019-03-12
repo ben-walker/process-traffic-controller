@@ -1,6 +1,6 @@
 #ifndef DISPATCHER_
 #define DISPATCHER_
 
-void startShift();
+void startDispatching();
 
 #endif // DISPATCHER_
