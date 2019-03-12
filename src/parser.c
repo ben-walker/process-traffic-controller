@@ -10,7 +10,7 @@ char **parseLine() {
       free(line);
       return NULL;
    }
-   line[strcspn(line, "\n")] = 0;
+   line[strcspn(line, "\r\n")] = 0;
    if (strlen(line) == 0) {
       free(line);
       return NULL;
