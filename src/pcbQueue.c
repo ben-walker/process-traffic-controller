@@ -41,3 +41,13 @@ PCB *dequeue(Queue *q) {
       q->back = NULL;
    return top;
 }
+
+void printQueue(Queue *q) {
+   PCB *p = q->front;
+   printf("front <- ");
+   while(p){
+      printf("pid:%d ", p->pid);
+      p = p->next;
+   }
+   printf("<- back\n");
+}

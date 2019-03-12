@@ -18,4 +18,6 @@ void enqueue(Queue *q, PCB *p);
 
 PCB *dequeue(Queue *q);
 
+void printQueue(Queue *q);
+
 #endif // PCB_QUEUE_
