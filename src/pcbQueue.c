@@ -30,3 +30,14 @@ void enqueue(Queue *q, PCB *p) {
       q->back->next = p;
    q->back = p;
 }
+
+PCB *dequeue(Queue *q) {
+   PCB *top = q->front;
+   if (top == NULL)
+      return NULL;
+
+   q->front = top->next;
+   if (q->front == NULL)
+      q->back = NULL;
+   return top;
+}

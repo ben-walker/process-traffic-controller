@@ -16,4 +16,6 @@ PCB *newPCB(int pid);
 
 void enqueue(Queue *q, PCB *p);
 
+PCB *dequeue(Queue *q);
+
 #endif // PCB_QUEUE_
