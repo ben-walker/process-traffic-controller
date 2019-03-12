@@ -3,7 +3,8 @@
 
 typedef enum pcbState {
    ready,
-   running
+   running,
+   blocked
 } pcbState;
 
 typedef struct PCB {
