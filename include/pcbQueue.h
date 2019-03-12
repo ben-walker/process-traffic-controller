@@ -12,4 +12,8 @@ typedef struct Queue {
 
 Queue *newQueue();
 
+PCB *newPCB(int pid);
+
+void enqueue(Queue *q, PCB *p);
+
 #endif // PCB_QUEUE_
