@@ -16,21 +16,21 @@ typedef enum queues {
    res5Q
 } queues;
 
-void newProcess(int pid, Q *qs[]) {
+void newProcess(int pid, int time, Q *qs[]) {
    if (pid < 1)
       return;
    if (isEmpty(qs[runQ]))
-      enQ(qs[runQ], newPCB(pid));
+      enQ(qs[runQ], newPCB(pid, time, running));
    else
-      enQ(qs[readyQ], newPCB(pid));
+      enQ(qs[readyQ], newPCB(pid, time, ready));
 }
 
 void dispatch(char **event, Q *qs[]) {
-   int pid;
+   int time = getEventTime(event);
 
    switch (getEventType(event)) {
       case createProc:
-         newProcess(getCreateEventPID(event), qs);
+         newProcess(getCreateEventPID(event), time, qs);
          break;
 
       case exitProc:
@@ -48,6 +48,7 @@ void dispatch(char **event, Q *qs[]) {
       default:
          break;
    }
+   printQ(qs[readyQ]);
 }
 
 void startDispatching() {
