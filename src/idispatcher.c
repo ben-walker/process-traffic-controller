@@ -25,6 +25,11 @@ void newProcess(int pid, int time, Q *qs[]) {
       enQ(qs[readyQ], newPCB(pid, time, ready));
 }
 
+void timeInterrupt(int time, Q *qs[]) {
+   enQ(qs[readyQ], deQ(qs[runQ]));
+   enQ(qs[runQ], deQ(qs[readyQ]));
+}
+
 void dispatch(char **event, Q *qs[]) {
    int time = getEventTime(event);
 
@@ -43,6 +48,7 @@ void dispatch(char **event, Q *qs[]) {
          break;
 
       case timerInterrupt:
+         timeInterrupt(time, qs);
          break;
 
       default:
