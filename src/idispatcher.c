@@ -7,7 +7,7 @@
 #include <string.h>
 
 typedef enum queues {
-   running,
+   runQ,
    readyQ,
    res1Q,
    res2Q,
