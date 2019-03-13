@@ -48,7 +48,6 @@ void dispatch(char **event, Q *qs[]) {
       default:
          break;
    }
-   printQ(qs[readyQ]);
 }
 
 void startDispatching() {
