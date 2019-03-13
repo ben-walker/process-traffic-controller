@@ -3,10 +3,16 @@
 
 #include <stdbool.h>
 
+typedef enum pcbStates {
+   ready,
+   running
+} pcbStates;
+
 typedef struct PCB {
    int pid;
    struct PCB *next;
-   int stateChangeTime;
+   pcbStates state;
+   int stateStartTime;
 } PCB;
 
 typedef struct Q {
@@ -15,7 +21,7 @@ typedef struct Q {
 
 Q *newQ();
 
-PCB *newPCB(int pid);
+PCB *newPCB(int pid, int time, pcbStates state);
 
 void enQ(Q *q, PCB *p);
 

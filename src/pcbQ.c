@@ -10,10 +10,12 @@ Q *newQ() {
    return q;
 }
 
-PCB *newPCB(int pid) {
+PCB *newPCB(int pid, int time, pcbStates state) {
    PCB *p = malloc(sizeof(PCB));
    if (p == NULL) fatal("malloc");
    p->pid = pid;
+   p->state = state;
+   p->stateStartTime = time;
    p->next = NULL;
    return p;
 }
@@ -40,7 +42,7 @@ PCB *deQ(Q *q) {
 void printQ(Q *q) {
    printf("front <- ");
    for (PCB *p = q->front; p; p = p->next)
-      printf("pid:%d ", p->pid);
+      printf("pid:%d:%d:%d ", p->pid, p->state, p->stateStartTime);
    printf("<- back\n");
 }
 
