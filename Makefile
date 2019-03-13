@@ -1,4 +1,4 @@
-EXE = dispatcher
+EXE = idispatcher
 
 SRC_DIR = src
 OBJ_DIR = build

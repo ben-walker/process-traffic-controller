@@ -1,5 +1,6 @@
-#include "dispatcher.h"
+#include "idispatcher.h"
 #include "parser.h"
+#include "pcbQueue.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -22,6 +23,7 @@ void dispatch(char **line) {
 }
 
 void startDispatching() {
+   Queue *readyQ = newQueue();
    char **processLine;
 
    while ((processLine = parseLine()) != NULL) {
