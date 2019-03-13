@@ -1,4 +1,5 @@
 #include "parser.h"
+#include "fatalError.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -17,10 +18,7 @@ char **parseLine() {
    }
 
    char *tok, *saved, **delimLine = malloc(sizeof(char *) * MAX_ELEMS);
-   if (delimLine == NULL) {
-      perror("malloc");
-      exit(EXIT_FAILURE);
-   }
+   if (delimLine == NULL) fatal("malloc");
 
    for (tok = strtok_r(line, " ", &saved); tok; tok = strtok_r(NULL, " ", &saved)) {
       if (count == MAX_ELEMS)

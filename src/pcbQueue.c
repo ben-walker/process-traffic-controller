@@ -1,23 +1,18 @@
 #include "pcbQueue.h"
+#include "fatalError.h"
 #include <stdlib.h>
 #include <stdio.h>
 
 Queue *newQueue() {
    Queue *q = malloc(sizeof(Queue));
-   if (q == NULL) {
-      perror("malloc");
-      exit(EXIT_FAILURE);
-   }
+   if (q == NULL) fatal("malloc");
    q->front = q->back = NULL;
    return q;
 }
 
 PCB *newPCB(int pid) {
    PCB *p = malloc(sizeof(PCB));
-   if (p == NULL) {
-      perror("malloc");
-      exit(EXIT_FAILURE);
-   }
+   if (p == NULL) fatal("malloc");
    p->pid = pid;
    p->next = NULL;
    return p;
