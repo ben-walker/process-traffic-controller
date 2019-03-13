@@ -1,5 +1,7 @@
 #include "eventTranslator.h"
+#include "numbers.h"
 #include <string.h>
+#include <stdlib.h>
 
 static const char *CREATE = "C",
    *EXIT = "E",
@@ -25,4 +27,11 @@ int getEventType(char **event) {
    if (strncmp(type, TIMER, 1) == 0)
       return timerInterrupt;
    return -1;
+}
+
+int getEventTime(char **event) {
+   int timeNum;
+   if (toNum(event[timeIdx], &timeNum) == EXIT_FAILURE)
+      return -1;
+   return timeNum;
 }

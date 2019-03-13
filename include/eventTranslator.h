@@ -11,4 +11,6 @@ typedef enum eventTypes {
 
 int getEventType(char **event);
 
+int getEventTime(char **event);
+
 #endif // EVENT_TRANSLATOR
