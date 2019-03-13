@@ -7,6 +7,7 @@
 #include <string.h>
 
 typedef enum queues {
+   running,
    readyQ,
    res1Q,
    res2Q,
@@ -42,7 +43,7 @@ void dispatch(char **event, Q *qs[]) {
 }
 
 void startDispatching() {
-   Q *qs[] = { newQ(), newQ(), newQ(), newQ(), newQ(), newQ() };
+   Q *qs[] = { newQ(), newQ(), newQ(), newQ(), newQ(), newQ(), newQ() };
    char **event;
 
    while ((event = parseLine()) != NULL) {
