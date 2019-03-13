@@ -13,4 +13,6 @@ int getEventType(char **event);
 
 int getEventTime(char **event);
 
+int getCreateEventPID(char **event);
+
 #endif // EVENT_TRANSLATOR

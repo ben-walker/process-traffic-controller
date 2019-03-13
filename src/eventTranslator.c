@@ -35,3 +35,10 @@ int getEventTime(char **event) {
       return -1;
    return timeNum;
 }
+
+int getCreateEventPID(char **event) {
+   int pid;
+   if (toNum(event[typeIdx + 1], &pid) == EXIT_FAILURE)
+      return -1;
+   return pid;
+}
