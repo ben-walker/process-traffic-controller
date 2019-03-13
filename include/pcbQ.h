@@ -3,17 +3,10 @@
 
 #include <stdbool.h>
 
-typedef enum pcbState {
-   ready,
-   running,
-   blocked
-} pcbState;
-
 typedef struct PCB {
    int pid;
-   pcbState state;
    struct PCB *next;
-   int runTime, readyTime, blockTime;
+   int stateChangeTime;
 } PCB;
 
 typedef struct Q {
