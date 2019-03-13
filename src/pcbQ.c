@@ -38,11 +38,19 @@ PCB *deQ(Q *q) {
 }
 
 void printQ(Q *q) {
-   PCB *p = q->front;
    printf("front <- ");
-   while(p){
+   for (PCB *p = q->front; p; p = p->next)
       printf("pid:%d ", p->pid);
-      p = p->next;
-   }
    printf("<- back\n");
+}
+
+bool isEmpty(Q *q) {
+   return q->back == NULL && q->front == NULL;
+}
+
+int length(Q *q) {
+   int length = 0;
+   for (PCB *iter = q->front; iter; iter = iter->next)
+      length += 1;
+   return length;
 }
