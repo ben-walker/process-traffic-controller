@@ -16,8 +16,12 @@ typedef enum queues {
 } queues;
 
 void dispatch(char **event, Q *qs[]) {
+   int pid;
+
    switch (getEventType(event)) {
       case createProc:
+         if ((pid = getCreateEventPID(event)) > 0)
+            enQ(qs[readyQ], newPCB(pid));
          break;
 
       case exitProc:
