@@ -6,7 +6,16 @@
 #include <stdlib.h>
 #include <string.h>
 
-void dispatch(char **event) {
+typedef enum queues {
+   readyQ,
+   res1Q,
+   res2Q,
+   res3Q,
+   res4Q,
+   res5Q
+} queues;
+
+void dispatch(char **event, Q *qs[]) {
    switch (getEventType(event)) {
       case createProc:
          break;
@@ -29,15 +38,10 @@ void dispatch(char **event) {
 }
 
 void startDispatching() {
-   Q *readyQ =  newQ(),
-      *res1Q = newQ(),
-      *res2Q = newQ(),
-      *res3Q = newQ(),
-      *res4Q = newQ(),
-      *res5Q = newQ();
+   Q *qs[] = { newQ(), newQ(), newQ(), newQ(), newQ(), newQ() };
    char **event;
 
    while ((event = parseLine()) != NULL) {
-      dispatch(event);
+      dispatch(event, qs);
    }
 }
