@@ -13,9 +13,11 @@ typedef struct PCB {
    struct PCB *next;
    pcbStates state;
    int stateStartTime;
+   int runTime;
 } PCB;
 
 typedef struct Q {
+   int length;
    PCB *front, *back;
 } Q;
 

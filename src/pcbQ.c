@@ -21,21 +21,22 @@ PCB *newPCB(int pid, int time, pcbStates state) {
 }
 
 void enQ(Q *q, PCB *p) {
-   if (q->back == NULL)
-      q->front = p;
-   else
+   if (isEmpty(q))
+      q->front = q->back = p;
+   else {
       q->back->next = p;
-   q->back = p;
+      q->back = p;
+   }
+   q->length += 1;
 }
 
 PCB *deQ(Q *q) {
    PCB *top = q->front;
-   if (top == NULL)
-      return NULL;
-
-   q->front = top->next;
+   q->front = q->front->next;
    if (q->front == NULL)
       q->back = NULL;
+   q->length -= 1;
+   top->next = NULL;
    return top;
 }
 
@@ -47,12 +48,9 @@ void printQ(Q *q) {
 }
 
 bool isEmpty(Q *q) {
-   return q->back == NULL && q->front == NULL;
+   return q->back == NULL;
 }
 
 int length(Q *q) {
-   int length = 0;
-   for (PCB *iter = q->front; iter; iter = iter->next)
-      length += 1;
-   return length;
+   return q->length;
 }
