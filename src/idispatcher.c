@@ -5,28 +5,28 @@
 #include <stdlib.h>
 #include <string.h>
 
-static const int TIME = 0, EVENT = 1;
+static const int TIME_I = 0, EVENT_I = 1;
 static const char *CREATE = "C", *EXIT = "E", *REQUEST = "R", *INTERRUPT = "I", *TIMER = "T";
 
-void dispatch(char **line) {
-   if (strcmp(line[EVENT], CREATE) == 0) {
+void dispatch(char **event) {
+   if (strcmp(event[EVENT_I], CREATE) == 0) {
 
-   } else if (strcmp(line[EVENT], EXIT) == 0) {
+   } else if (strncmp(event[EVENT_I], EXIT, 1) == 0) {
 
-   } else if (strcmp(line[EVENT], REQUEST) == 0) {
-      
-   } else if (strcmp(line[EVENT], INTERRUPT) == 0) {
-      
-   } else if (strcmp(line[EVENT], TIMER) == 0) {
-      
+   } else if (strncmp(event[EVENT_I], REQUEST, 1) == 0) {
+
+   } else if (strncmp(event[EVENT_I], INTERRUPT, 1) == 0) {
+
+   } else if (strncmp(event[EVENT_I], TIMER, 1) == 0) {
+
    }
 }
 
 void startDispatching() {
    Queue *readyQ = newQueue();
-   char **processLine;
+   char **event;
 
-   while ((processLine = parseLine()) != NULL) {
-      dispatch(processLine);
+   while ((event = parseLine()) != NULL) {
+      dispatch(event);
    }
 }
