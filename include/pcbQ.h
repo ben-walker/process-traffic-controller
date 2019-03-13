@@ -14,18 +14,18 @@ typedef struct PCB {
    int runTime, readyTime, blockTime;
 } PCB;
 
-typedef struct Queue {
+typedef struct Q {
    PCB *front, *back;
-} Queue;
+} Q;
 
-Queue *newQueue();
+Q *newQ();
 
 PCB *newPCB(int pid);
 
-void enqueue(Queue *q, PCB *p);
+void enQ(Q *q, PCB *p);
 
-PCB *dequeue(Queue *q);
+PCB *deQ(Q *q);
 
-void printQueue(Queue *q);
+void printQ(Q *q);
 
 #endif // PCB_QUEUE_

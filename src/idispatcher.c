@@ -1,6 +1,6 @@
 #include "idispatcher.h"
 #include "parser.h"
-#include "pcbQueue.h"
+#include "pcbQ.h"
 #include "eventTranslator.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,7 +29,12 @@ void dispatch(char **event) {
 }
 
 void startDispatching() {
-   Queue *readyQ = newQueue();
+   Q *readyQ =  newQ(),
+      *res1Q = newQ(),
+      *res2Q = newQ(),
+      *res3Q = newQ(),
+      *res4Q = newQ(),
+      *res5Q = newQ();
    char **event;
 
    while ((event = parseLine()) != NULL) {

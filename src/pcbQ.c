@@ -1,10 +1,10 @@
-#include "pcbQueue.h"
+#include "pcbQ.h"
 #include "fatalError.h"
 #include <stdlib.h>
 #include <stdio.h>
 
-Queue *newQueue() {
-   Queue *q = malloc(sizeof(Queue));
+Q *newQ() {
+   Q *q = malloc(sizeof(Q));
    if (q == NULL) fatal("malloc");
    q->front = q->back = NULL;
    return q;
@@ -18,7 +18,7 @@ PCB *newPCB(int pid) {
    return p;
 }
 
-void enqueue(Queue *q, PCB *p) {
+void enQ(Q *q, PCB *p) {
    if (q->back == NULL)
       q->front = p;
    else
@@ -26,7 +26,7 @@ void enqueue(Queue *q, PCB *p) {
    q->back = p;
 }
 
-PCB *dequeue(Queue *q) {
+PCB *deQ(Q *q) {
    PCB *top = q->front;
    if (top == NULL)
       return NULL;
@@ -37,7 +37,7 @@ PCB *dequeue(Queue *q) {
    return top;
 }
 
-void printQueue(Queue *q) {
+void printQ(Q *q) {
    PCB *p = q->front;
    printf("front <- ");
    while(p){
