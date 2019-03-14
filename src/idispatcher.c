@@ -56,15 +56,23 @@ void resourceInterrupt(int pid, int res, Q *qs[]) {
       enQ(qs[readyQ], p);
 }
 
+void removeProcess(int pid, Q *qs[]) {
+   PCB *p;
+   for (int i = runQ; i < res5Q; i += 1)
+      if (hasProcess(qs[i], pid))
+         p = pluck(qs[i], pid);
+}
+
 void dispatch(char **event, Q *qs[]) {
    int time = getEventTime(event);
 
    switch (getEventType(event)) {
       case createProc:
-         newProcess(getCreateEventPID(event), time, qs);
+         newProcess(getLifespanEventPID(event), time, qs);
          break;
 
       case exitProc:
+         removeProcess(getLifespanEventPID(event), qs);
          break;
 
       case reqRes:
