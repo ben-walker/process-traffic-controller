@@ -115,5 +115,8 @@ void updateState(PCB *p, pcbStates newState, int time) {
       case blocked:
          p->blockTime += timeDiff;
          break;
+
+      case terminated:
+         break;
    }
 }
