@@ -46,4 +46,6 @@ int length(Q *q);
 
 void updateState(PCB *p, pcbStates newState, int time);
 
+void printQTimings(Q *q);
+
 #endif // PCB_QUEUE_

@@ -71,6 +71,11 @@ void printQ(Q *q) {
    printf("<- back\n");
 }
 
+void printQTimings(Q *q) {
+   for (PCB *p = q->front; p; p = p->next)
+      printf("%d %d %d %d\n", p->pid, p->runTime, p->readyTime, p->blockTime);
+}
+
 void printQs(Q *qs[], const char *labels[], size_t size) {
    for (int i = 0; i < size; i += 1) {
       printf("%s: ", labels[i]);
