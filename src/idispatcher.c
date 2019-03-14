@@ -56,15 +56,20 @@ void requestResource(int pid, int res, Q *qs[]) {
 void resourceInterrupt(int pid, int res, Q *qs[]) {
    int resQ = resNumToQIdx(res);
    PCB *p = pluck(qs[resQ], pid);
-   if (p != NULL)
-      enQ(qs[readyQ], p);
+   isEmpty(qs[runQ])
+      ? enQ(qs[runQ], p)
+      : enQ(qs[readyQ], p);
 }
 
 void removeProcess(int pid, Q *qs[]) {
    PCB *p;
-   for (int i = runQ; i < res5Q; i += 1)
-      if (hasProcess(qs[i], pid))
+   for (int i = runQ; i < res5Q; i += 1) {
+      if (hasProcess(qs[i], pid)) {
          p = pluck(qs[i], pid);
+         if (i == runQ)
+            enQ(qs[runQ], deQ(qs[readyQ]));
+      }
+   }
 }
 
 void dispatch(char **event, Q *qs[]) {
