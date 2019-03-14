@@ -51,6 +51,14 @@ bool isEmpty(Q *q) {
    return q->back == NULL;
 }
 
+bool hasProcess(Q *q, int pid) {
+   for (PCB *p = q->front; p; p = p->next) {
+      if (p->pid == pid)
+         return true;
+   }
+   return false;
+}
+
 int length(Q *q) {
    return q->length;
 }

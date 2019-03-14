@@ -33,6 +33,8 @@ void printQ(Q *q);
 
 bool isEmpty(Q *q);
 
+bool hasProcess(Q *q, int pid);
+
 int length(Q *q);
 
 #endif // PCB_QUEUE_
