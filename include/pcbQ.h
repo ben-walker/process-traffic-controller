@@ -6,7 +6,8 @@
 
 typedef enum pcbStates {
    ready,
-   running
+   running,
+   blocked
 } pcbStates;
 
 typedef struct PCB {
@@ -14,7 +15,7 @@ typedef struct PCB {
    struct PCB *next;
    pcbStates state;
    int stateStartTime;
-   int runTime;
+   int readyTime, runTime, blockTime;
 } PCB;
 
 typedef struct Q {
