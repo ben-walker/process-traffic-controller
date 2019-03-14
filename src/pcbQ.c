@@ -59,9 +59,13 @@ PCB *pluck(Q *q, int pid) {
 }
 
 void printQ(Q *q) {
+   if (isEmpty(q)) {
+      printf("(empty)\n");
+      return;
+   }
    printf("front <- ");
    for (PCB *p = q->front; p; p = p->next)
-      printf("pid:%d:%d:%d ", p->pid, p->state, p->stateStartTime);
+      printf("[%d] ", p->pid);
    printf("<- back\n");
 }
 
