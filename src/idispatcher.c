@@ -121,4 +121,5 @@ void startDispatching() {
    }
    sortQ(qs[deadQ], &qs[deadQ]->front);
    printQTimings(qs[deadQ]);
+   freeQs(qs, 8);
 }
