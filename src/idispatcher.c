@@ -39,6 +39,8 @@ void newProcess(int pid, int time, Q *qs[]) {
 void timeInterrupt(int time, Q *qs[]) {
    enQ(qs[readyQ], deQ(qs[runQ]));
    enQ(qs[runQ], deQ(qs[readyQ]));
+   updateState(qs[runQ]->back, running, time);
+   updateState(qs[readyQ]->back, ready, time);
 }
 
 void requestResource(int pid, int res, int time, Q *qs[]) {
@@ -57,9 +59,13 @@ void requestResource(int pid, int res, int time, Q *qs[]) {
 void resourceInterrupt(int pid, int res, int time, Q *qs[]) {
    int resQ = resNumToQIdx(res);
    PCB *p = pluck(qs[resQ], pid);
-   isEmpty(qs[runQ])
-      ? enQ(qs[runQ], p)
-      : enQ(qs[readyQ], p);
+   if (isEmpty(qs[runQ])) {
+      updateState(p, running, time);
+      enQ(qs[runQ], p);
+   } else {
+      updateState(p, ready, time);
+      enQ(qs[readyQ], p);
+   }
 }
 
 void removeProcess(int pid, int time, Q *qs[]) {
@@ -67,8 +73,10 @@ void removeProcess(int pid, int time, Q *qs[]) {
    for (int i = runQ; i < res5Q; i += 1) {
       if (hasProcess(qs[i], pid)) {
          p = pluck(qs[i], pid);
-         if (i == runQ)
+         if (i == runQ) {
             enQ(qs[runQ], deQ(qs[readyQ]));
+            updateState(qs[runQ]->back, running, time);
+         }
       }
    }
 }
