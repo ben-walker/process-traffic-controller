@@ -32,6 +32,8 @@ void enQ(Q *q, PCB *p) {
 }
 
 PCB *deQ(Q *q) {
+   if (isEmpty(q))
+      return NULL;
    PCB *top = q->front;
    q->front = q->front->next;
    if (q->front == NULL)
