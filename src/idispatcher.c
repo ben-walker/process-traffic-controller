@@ -49,6 +49,13 @@ void requestResource(int pid, int res, Q *qs[]) {
       enQ(qs[resNumToQIdx(res)], p);
 }
 
+void resourceInterrupt(int pid, int res, Q *qs[]) {
+   int resQ = resNumToQIdx(res);
+   PCB *p = pluck(qs[resQ], pid);
+   if (p != NULL)
+      enQ(qs[readyQ], p);
+}
+
 void dispatch(char **event, Q *qs[]) {
    int time = getEventTime(event);
 
@@ -61,10 +68,11 @@ void dispatch(char **event, Q *qs[]) {
          break;
 
       case reqRes:
-         requestResource(getRequestEventPID(event), getResource(event), qs);
+         requestResource(getResourceEventPID(event), getResource(event), qs);
          break;
 
       case interruptProc:
+         resourceInterrupt(getResourceEventPID(event), getResource(event), qs);
          break;
 
       case timerInterrupt:
