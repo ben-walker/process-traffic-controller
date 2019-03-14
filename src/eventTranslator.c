@@ -36,7 +36,7 @@ int getEventTime(char **event) {
    return timeNum;
 }
 
-int getCreateEventPID(char **event) {
+int getLifespanEventPID(char **event) {
    int pid;
    if (toNum(event[typeIdx + 1], &pid) == EXIT_FAILURE)
       return -1;

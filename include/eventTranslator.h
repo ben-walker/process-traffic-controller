@@ -13,7 +13,7 @@ int getEventType(char **event);
 
 int getEventTime(char **event);
 
-int getCreateEventPID(char **event);
+int getLifespanEventPID(char **event);
 
 int getResource(char **event);
 
