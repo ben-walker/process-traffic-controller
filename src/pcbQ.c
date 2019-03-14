@@ -95,6 +95,8 @@ int length(Q *q) {
 }
 
 void updateState(PCB *p, pcbStates newState, int time) {
+   if (p == NULL)
+      return;
    pcbStates oldState = p->state;
    int oldTime = p->stateStartTime;
    p->state = newState;
