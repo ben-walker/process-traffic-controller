@@ -15,4 +15,8 @@ int getEventTime(char **event);
 
 int getCreateEventPID(char **event);
 
+int getResource(char **event);
+
+int getRequestEventPID(char **event);
+
 #endif // EVENT_TRANSLATOR

@@ -42,3 +42,19 @@ int getCreateEventPID(char **event) {
       return -1;
    return pid;
 }
+
+int getResource(char **event) {
+   if (getEventType(event) != reqRes)
+      return -1;
+   int resource;
+   if (toNum(event[typeIdx + 1], &resource) == EXIT_FAILURE)
+      return -1;
+   return resource;
+}
+
+int getRequestEventPID(char **event) {
+   int pid;
+   if (toNum(event[typeIdx + 2], &pid) == EXIT_FAILURE)
+      return -1;
+   return pid;
+}
