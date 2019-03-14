@@ -49,6 +49,7 @@ void requestResource(int pid, int res, int time, Q *qs[]) {
    if (hasProcess(qs[runQ], pid)) {
       p = pluck(qs[runQ], pid);
       enQ(qs[runQ], deQ(qs[readyQ]));
+      updateState(qs[runQ]->back, running, time);
    } else if (hasProcess(qs[readyQ], pid))
       p = pluck(qs[readyQ], pid);
    else
@@ -118,4 +119,5 @@ void startDispatching() {
    while ((event = parseLine()) != NULL) {
       dispatch(event, qs);
    }
+   printQTimings(qs[deadQ]);
 }
