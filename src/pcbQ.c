@@ -135,3 +135,33 @@ void updateState(PCB *p, pcbStates newState, int time) {
          break;
    }
 }
+
+// Adapted from: https://stackoverflow.com/a/21390410
+void sortQ(Q *q, PCB **head) {
+   bool done = false;
+   PCB **prev, *curr, *next;
+
+   if (isEmpty(q) || length(q) == 1)
+      return;
+
+   while (!done) {
+      prev = head;
+      curr = *head;
+      next = (*head)->next;
+
+      done = true;
+      while (next) {
+         if (curr->pid > next->pid) {
+            curr->next = next->next;
+            next->next = curr;
+            *prev = next;
+            done = false;
+         }
+         prev = &curr->next;
+         curr = next;
+         next = next->next;
+      }
+   }
+   q->front = *head;
+   q->back = curr;
+}
