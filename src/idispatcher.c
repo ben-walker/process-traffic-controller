@@ -16,6 +16,17 @@ typedef enum queues {
    res5Q
 } queues;
 
+int resNumToQIdx(int res) {
+   switch (res) {
+      case 1: return res1Q;
+      case 2: return res2Q;
+      case 3: return res3Q;
+      case 4: return res4Q;
+      case 5: return res5Q;
+   }
+   return -1;
+}
+
 void newProcess(int pid, int time, Q *qs[]) {
    if (pid < 1)
       return;
@@ -30,6 +41,14 @@ void timeInterrupt(int time, Q *qs[]) {
    enQ(qs[runQ], deQ(qs[readyQ]));
 }
 
+void requestResource(int pid, int res, Q *qs[]) {
+   PCB *p = hasProcess(qs[runQ], pid)
+      ? pluck(qs[runQ], pid)
+      : pluck(qs[readyQ], pid);
+   if (p != NULL)
+      enQ(qs[resNumToQIdx(res)], p);
+}
+
 void dispatch(char **event, Q *qs[]) {
    int time = getEventTime(event);
 
@@ -42,6 +61,7 @@ void dispatch(char **event, Q *qs[]) {
          break;
 
       case reqRes:
+         requestResource(getRequestEventPID(event), getResource(event), qs);
          break;
 
       case interruptProc:
