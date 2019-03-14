@@ -41,7 +41,7 @@ void timeInterrupt(int time, Q *qs[]) {
    enQ(qs[runQ], deQ(qs[readyQ]));
 }
 
-void requestResource(int pid, int res, Q *qs[]) {
+void requestResource(int pid, int res, int time, Q *qs[]) {
    PCB *p;
    if (hasProcess(qs[runQ], pid)) {
       p = pluck(qs[runQ], pid);
@@ -50,10 +50,11 @@ void requestResource(int pid, int res, Q *qs[]) {
       p = pluck(qs[readyQ], pid);
    else
       return;
+   updateState(p, blocked, time);
    enQ(qs[resNumToQIdx(res)], p);
 }
 
-void resourceInterrupt(int pid, int res, Q *qs[]) {
+void resourceInterrupt(int pid, int res, int time, Q *qs[]) {
    int resQ = resNumToQIdx(res);
    PCB *p = pluck(qs[resQ], pid);
    isEmpty(qs[runQ])
@@ -61,7 +62,7 @@ void resourceInterrupt(int pid, int res, Q *qs[]) {
       : enQ(qs[readyQ], p);
 }
 
-void removeProcess(int pid, Q *qs[]) {
+void removeProcess(int pid, int time, Q *qs[]) {
    PCB *p;
    for (int i = runQ; i < res5Q; i += 1) {
       if (hasProcess(qs[i], pid)) {
@@ -81,15 +82,15 @@ void dispatch(char **event, Q *qs[]) {
          break;
 
       case exitProc:
-         removeProcess(getLifespanEventPID(event), qs);
+         removeProcess(getLifespanEventPID(event), time, qs);
          break;
 
       case reqRes:
-         requestResource(getResourceEventPID(event), getResource(event), qs);
+         requestResource(getResourceEventPID(event), getResource(event), time, qs);
          break;
 
       case interruptProc:
-         resourceInterrupt(getResourceEventPID(event), getResource(event), qs);
+         resourceInterrupt(getResourceEventPID(event), getResource(event), time, qs);
          break;
 
       case timerInterrupt:
