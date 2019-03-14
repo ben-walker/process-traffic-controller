@@ -40,6 +40,21 @@ PCB *deQ(Q *q) {
    return top;
 }
 
+PCB *pluck(Q *q, int pid) {
+   if (q->front->pid == pid)
+      return deQ(q);
+
+   PCB *prev, *top = q->front;
+   while (top != NULL && top->pid != pid) {
+      prev = top;
+      top = top->next;
+   }
+   if (top == NULL)
+      return NULL;
+   prev->next = top->next;
+   return top;
+}
+
 void printQ(Q *q) {
    printf("front <- ");
    for (PCB *p = q->front; p; p = p->next)

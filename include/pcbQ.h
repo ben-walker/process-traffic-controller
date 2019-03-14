@@ -29,6 +29,8 @@ void enQ(Q *q, PCB *p);
 
 PCB *deQ(Q *q);
 
+PCB *pluck(Q *q, int pid);
+
 void printQ(Q *q);
 
 bool isEmpty(Q *q);
