@@ -14,7 +14,7 @@ typedef enum queues {
    res3Q,
    res4Q,
    res5Q,
-   dead
+   deadQ
 } queues;
 
 int resNumToQIdx(int res) {
@@ -72,8 +72,8 @@ void resourceInterrupt(int pid, int res, int time, Q *qs[]) {
 void removeProcess(int pid, int time, Q *qs[]) {
    for (int i = runQ; i < res5Q; i += 1) {
       if (hasProcess(qs[i], pid)) {
-         enQ(qs[dead], pluck(qs[i], pid));
-         updateState(qs[dead]->back, terminated, time);
+         enQ(qs[deadQ], pluck(qs[i], pid));
+         updateState(qs[deadQ]->back, terminated, time);
          if (i == runQ) {
             enQ(qs[runQ], deQ(qs[readyQ]));
             updateState(qs[runQ]->back, running, time);
