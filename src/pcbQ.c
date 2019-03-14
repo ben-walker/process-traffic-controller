@@ -6,6 +6,7 @@ Q *newQ() {
    Q *q = malloc(sizeof(Q));
    if (q == NULL) fatal("malloc");
    q->front = q->back = NULL;
+   q->length = 0;
    return q;
 }
 
