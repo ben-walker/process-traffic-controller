@@ -52,6 +52,8 @@ PCB *pluck(Q *q, int pid) {
    if (top == NULL)
       return NULL;
    prev->next = top->next;
+   top->next = NULL;
+   q->length -= 1;
    return top;
 }
 
