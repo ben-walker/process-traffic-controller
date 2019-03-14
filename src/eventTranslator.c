@@ -44,7 +44,8 @@ int getCreateEventPID(char **event) {
 }
 
 int getResource(char **event) {
-   if (getEventType(event) != reqRes)
+   int type = getEventType(event);
+   if (type != reqRes && type != interruptProc)
       return -1;
    int resource;
    if (toNum(event[typeIdx + 1], &resource) == EXIT_FAILURE)
@@ -52,7 +53,7 @@ int getResource(char **event) {
    return resource;
 }
 
-int getRequestEventPID(char **event) {
+int getResourceEventPID(char **event) {
    int pid;
    if (toNum(event[typeIdx + 2], &pid) == EXIT_FAILURE)
       return -1;
