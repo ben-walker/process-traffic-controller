@@ -13,7 +13,8 @@ typedef enum queues {
    res2Q,
    res3Q,
    res4Q,
-   res5Q
+   res5Q,
+   dead
 } queues;
 
 int resNumToQIdx(int res) {
@@ -69,11 +70,10 @@ void resourceInterrupt(int pid, int res, int time, Q *qs[]) {
 }
 
 void removeProcess(int pid, int time, Q *qs[]) {
-   PCB *p;
    for (int i = runQ; i < res5Q; i += 1) {
       if (hasProcess(qs[i], pid)) {
-         p = pluck(qs[i], pid);
-         updateState(p, terminated, time);
+         enQ(qs[dead], pluck(qs[i], pid));
+         updateState(qs[dead]->back, terminated, time);
          if (i == runQ) {
             enQ(qs[runQ], deQ(qs[readyQ]));
             updateState(qs[runQ]->back, running, time);
@@ -112,7 +112,7 @@ void dispatch(char **event, Q *qs[]) {
 }
 
 void startDispatching() {
-   Q *qs[] = { newQ(), newQ(), newQ(), newQ(), newQ(), newQ(), newQ() };
+   Q *qs[] = { newQ(), newQ(), newQ(), newQ(), newQ(), newQ(), newQ(), newQ() };
    char **event;
 
    while ((event = parseLine()) != NULL) {
