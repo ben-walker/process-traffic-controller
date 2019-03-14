@@ -71,7 +71,17 @@ void printQ(Q *q) {
    printf("<- back\n");
 }
 
+int calcProc0(Q *q) {
+   int sysTime = 0, procTime = 0;
+   for (PCB *p = q->front; p; p = p->next) {
+      procTime += p->runTime;
+      sysTime = p->stateStartTime > sysTime ? p->stateStartTime : sysTime;
+   }
+   return sysTime - procTime;
+}
+
 void printQTimings(Q *q) {
+   printf("0 %d\n", calcProc0(q));
    for (PCB *p = q->front; p; p = p->next)
       printf("%d %d %d %d\n", p->pid, p->runTime, p->readyTime, p->blockTime);
 }
