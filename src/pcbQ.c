@@ -13,9 +13,12 @@ PCB *newPCB(int pid, int time, pcbStates state) {
    PCB *p = malloc(sizeof(PCB));
    if (p == NULL) fatal("malloc");
    p->pid = pid;
+   p->next = NULL;
    p->state = state;
    p->stateStartTime = time;
-   p->next = NULL;
+   p->readyTime = 0;
+   p->runTime = 0;
+   p->blockTime = 0;
    return p;
 }
 
