@@ -42,11 +42,15 @@ void timeInterrupt(int time, Q *qs[]) {
 }
 
 void requestResource(int pid, int res, Q *qs[]) {
-   PCB *p = hasProcess(qs[runQ], pid)
-      ? pluck(qs[runQ], pid)
-      : pluck(qs[readyQ], pid);
-   if (p != NULL)
-      enQ(qs[resNumToQIdx(res)], p);
+   PCB *p;
+   if (hasProcess(qs[runQ], pid)) {
+      p = pluck(qs[runQ], pid);
+      enQ(qs[runQ], deQ(qs[readyQ]));
+   } else if (hasProcess(qs[readyQ], pid))
+      p = pluck(qs[readyQ], pid);
+   else
+      return;
+   enQ(qs[resNumToQIdx(res)], p);
 }
 
 void resourceInterrupt(int pid, int res, Q *qs[]) {
