@@ -119,5 +119,6 @@ void startDispatching() {
    while ((event = parseLine()) != NULL) {
       dispatch(event, qs);
    }
+   sortQ(qs[deadQ], &qs[deadQ]->front);
    printQTimings(qs[deadQ]);
 }
