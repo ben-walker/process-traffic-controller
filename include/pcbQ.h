@@ -50,4 +50,8 @@ void printQTimings(Q *q);
 
 void sortQ(Q *q, PCB **head);
 
+void freeQ(Q *q);
+
+void freeQs(Q *qs[], size_t size);
+
 #endif // PCB_QUEUE_

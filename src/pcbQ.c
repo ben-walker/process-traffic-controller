@@ -140,6 +140,18 @@ void updateState(PCB *p, pcbStates newState, int time) {
    }
 }
 
+void freeQ(Q *q) {
+   PCB *p;
+   while (p = deQ(q))
+      free(p);
+   free(q);
+}
+
+void freeQs(Q *qs[], size_t size) {
+   for (int i = 0; i < size; i += 1)
+      freeQ(qs[i]);
+}
+
 // Adapted from: https://stackoverflow.com/a/21390410
 void sortQ(Q *q, PCB **head) {
    bool done = false;
