@@ -142,7 +142,7 @@ void updateState(PCB *p, pcbStates newState, int time) {
 
 void freeQ(Q *q) {
    PCB *p;
-   while (p = deQ(q))
+   while ((p = deQ(q)))
       free(p);
    free(q);
 }
