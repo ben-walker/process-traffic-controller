@@ -20,6 +20,8 @@ PCB *newPCB(int pid, int time, pcbStates state) {
 }
 
 void enQ(Q *q, PCB *p) {
+   if (p == NULL)
+      return;
    if (isEmpty(q))
       q->front = q->back = p;
    else {
