@@ -7,7 +7,8 @@
 typedef enum pcbStates {
    ready,
    running,
-   blocked
+   blocked,
+   terminated
 } pcbStates;
 
 typedef struct PCB {
