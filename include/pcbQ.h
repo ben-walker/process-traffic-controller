@@ -43,4 +43,6 @@ bool hasProcess(Q *q, int pid);
 
 int length(Q *q);
 
+void updateState(PCB *p, pcbStates newState, int time);
+
 #endif // PCB_QUEUE_

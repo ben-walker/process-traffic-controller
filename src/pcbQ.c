@@ -93,3 +93,25 @@ bool hasProcess(Q *q, int pid) {
 int length(Q *q) {
    return q->length;
 }
+
+void updateState(PCB *p, pcbStates newState, int time) {
+   pcbStates oldState = p->state;
+   int oldTime = p->stateStartTime;
+   p->state = newState;
+   p->stateStartTime = time;
+
+   int timeDiff = time - oldTime;
+   switch (oldState) {
+      case ready:
+         p->readyTime += timeDiff;
+         break;
+
+      case running:
+         p->runTime += timeDiff;
+         break;
+
+      case blocked:
+         p->blockTime += timeDiff;
+         break;
+   }
+}
