@@ -2,6 +2,7 @@
 #define PCB_QUEUE_
 
 #include <stdbool.h>
+#include <stdlib.h>
 
 typedef enum pcbStates {
    ready,
@@ -32,6 +33,8 @@ PCB *deQ(Q *q);
 PCB *pluck(Q *q, int pid);
 
 void printQ(Q *q);
+
+void printQs(Q *qs[], const char *labels[], size_t size);
 
 bool isEmpty(Q *q);
 

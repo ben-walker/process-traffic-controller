@@ -1,6 +1,5 @@
 #include "pcbQ.h"
 #include "fatalError.h"
-#include <stdlib.h>
 #include <stdio.h>
 
 Q *newQ() {
@@ -62,6 +61,13 @@ void printQ(Q *q) {
    for (PCB *p = q->front; p; p = p->next)
       printf("pid:%d:%d:%d ", p->pid, p->state, p->stateStartTime);
    printf("<- back\n");
+}
+
+void printQs(Q *qs[], const char *labels[], size_t size) {
+   for (int i = 0; i < size; i += 1) {
+      printf("%s: ", labels[i]);
+      printQ(qs[i]);
+   }
 }
 
 bool isEmpty(Q *q) {
