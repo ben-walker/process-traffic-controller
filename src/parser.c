@@ -16,8 +16,9 @@
  * Parse a line from stdin into array of strings (white space delimited).
  */
 char **parseLine() {
+   // length of line; count of current number of elements
    size_t len, count = 0;
-   char *line = NULL;
+   char *line = NULL; // line retrieved from stdin
    if (getline(&line, &len, stdin) == -1) { // if EOF or no line
       free(line);
       return NULL;
@@ -28,15 +29,16 @@ char **parseLine() {
       return NULL;
    }
 
-   char *tok, *saved, **delimLine = malloc(sizeof(char *) * MAX_ELEMS);
-   if (delimLine == NULL) fatal("malloc");
+   // current token; saved point in the line; array of string elements delimited by white space
+   char *tok, *saved, **elements = malloc(sizeof(char *) * MAX_ELEMS);
+   if (elements == NULL) fatal("malloc");
 
    // loop through line tokens and add them to array of strings
    for (tok = strtok_r(line, " ", &saved); tok; tok = strtok_r(NULL, " ", &saved)) {
       if (count == MAX_ELEMS) break;
-      delimLine[count++] = strdup(tok);
-      delimLine[count] = NULL;
+      elements[count++] = strdup(tok);
+      elements[count] = NULL;
    }
    free(line);
-   return delimLine;
+   return elements;
 }
