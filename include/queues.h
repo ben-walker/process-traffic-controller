@@ -19,6 +19,8 @@ typedef enum queues { // all system queues
    deadQ // queue of terminated processes
 } queues;
 
+static const int NUM_QUEUES = 8;
+
 int resourceToQIndex(int resource);
 
 #endif // QUEUES_

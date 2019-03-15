@@ -35,26 +35,26 @@ void timeInterrupt(int time, Q *qs[]) {
  * Move a process to the requested resource queue.
  */
 void requestResource(int pid, int res, int time, Q *qs[]) {
-   PCB *p;
+   PCB *pcb;
    if (hasProcess(qs[runQ], pid)) { // run a new process if currently running process requests a resource
-      p = pluck(qs[runQ], pid);
+      pcb = pluck(qs[runQ], pid);
       enQ(qs[runQ], deQ(qs[readyQ]), running, time);
    } else if (hasProcess(qs[readyQ], pid))
-      p = pluck(qs[readyQ], pid);
+      pcb = pluck(qs[readyQ], pid);
    else // only processes in ready/run queues can request a resource
       return;
-   enQ(qs[resourceToQIndex(res)], p, blocked, time);
+   enQ(qs[resourceToQIndex(res)], pcb, blocked, time);
 }
 
 /**
  * Move a process from a resource queue to the ready/run queue.
  */
 void resourceInterrupt(int pid, int res, int time, Q *qs[]) {
-   int resQ = resourceToQIndex(res); // determine index of resource queue
-   PCB *p = pluck(qs[resQ], pid); // "pluck" the process from the resource queue
+   int resourceQ = resourceToQIndex(res); // determine index of resource queue
+   PCB *pcb = pluck(qs[resourceQ], pid); // "pluck" the process from the resource queue
    isEmpty(qs[runQ]) // add process to the run queue if nothing is running, ready queue otherwise
-      ? enQ(qs[runQ], p, running, time)
-      : enQ(qs[readyQ], p, ready, time);
+      ? enQ(qs[runQ], pcb, running, time)
+      : enQ(qs[readyQ], pcb, ready, time);
 }
 
 /**
@@ -115,7 +115,9 @@ void freeEvent(char **event) {
  */
 void startDispatching() {
    // setup enough queues (see queues.h)
-   Q *qs[] = { newQ(), newQ(), newQ(), newQ(), newQ(), newQ(), newQ(), newQ() };
+   Q *qs[NUM_QUEUES];
+   for (int i = 0; i < NUM_QUEUES; i += 1)
+      qs[i] = newQ();
    char **event;
 
    while ((event = parseLine())) {
@@ -124,5 +126,5 @@ void startDispatching() {
    }
    sortQ(qs[deadQ], &qs[deadQ]->front); // sort dead processes by PID ascending
    printQTimings(qs[deadQ]); // print out timing totals (run, ready, blocked) for dead processes
-   freeQs(qs, sizeof(qs) / sizeof(qs[0])); // free queue memory
+   freeQs(qs, NUM_QUEUES); // free queue memory
 }
