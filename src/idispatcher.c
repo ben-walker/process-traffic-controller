@@ -112,14 +112,21 @@ void dispatch(char **event, Q *qs[]) {
    }
 }
 
+void freeEvent(char **event) {
+   for (int i = 0; event[i]; i += 1)
+      free(event[i]);
+   free(event);
+}
+
 void startDispatching() {
    Q *qs[] = { newQ(), newQ(), newQ(), newQ(), newQ(), newQ(), newQ(), newQ() };
    char **event;
 
-   while ((event = parseLine()) != NULL) {
+   while ((event = parseLine())) {
       dispatch(event, qs);
+      freeEvent(event);
    }
    sortQ(qs[deadQ], &qs[deadQ]->front);
    printQTimings(qs[deadQ]);
-   freeQs(qs, 8);
+   freeQs(qs, sizeof(qs) / sizeof(qs[0]));
 }
