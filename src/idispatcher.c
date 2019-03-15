@@ -10,52 +10,40 @@
 void newProcess(int pid, int time, Q *qs[]) {
    if (pid < 1) return;
    isEmpty(qs[runQ])
-      ? enQ(qs[runQ], newPCB(pid, time, running))
-      : enQ(qs[readyQ], newPCB(pid, time, ready));
+      ? enQ(qs[runQ], newPCB(pid, time, running), running, time)
+      : enQ(qs[readyQ], newPCB(pid, time, ready), ready, time);
 }
 
 void timeInterrupt(int time, Q *qs[]) {
-   enQ(qs[readyQ], deQ(qs[runQ]));
-   enQ(qs[runQ], deQ(qs[readyQ]));
-   updateState(qs[runQ]->back, running, time);
-   updateState(qs[readyQ]->back, ready, time);
+   enQ(qs[readyQ], deQ(qs[runQ]), ready, time);
+   enQ(qs[runQ], deQ(qs[readyQ]), running, time);
 }
 
 void requestResource(int pid, int res, int time, Q *qs[]) {
    PCB *p;
    if (hasProcess(qs[runQ], pid)) {
       p = pluck(qs[runQ], pid);
-      enQ(qs[runQ], deQ(qs[readyQ]));
-      updateState(qs[runQ]->back, running, time);
+      enQ(qs[runQ], deQ(qs[readyQ]), running, time);
    } else if (hasProcess(qs[readyQ], pid))
       p = pluck(qs[readyQ], pid);
    else
       return;
-   updateState(p, blocked, time);
-   enQ(qs[resourceToQIndex(res)], p);
+   enQ(qs[resourceToQIndex(res)], p, blocked, time);
 }
 
 void resourceInterrupt(int pid, int res, int time, Q *qs[]) {
    int resQ = resourceToQIndex(res);
    PCB *p = pluck(qs[resQ], pid);
-   if (isEmpty(qs[runQ])) {
-      updateState(p, running, time);
-      enQ(qs[runQ], p);
-   } else {
-      updateState(p, ready, time);
-      enQ(qs[readyQ], p);
-   }
+   isEmpty(qs[runQ])
+      ? enQ(qs[runQ], p, running, time)
+      : enQ(qs[readyQ], p, ready, time);
 }
 
 void removeProcess(int pid, int time, Q *qs[]) {
    for (int i = runQ; i < res5Q; i += 1) {
       if (!hasProcess(qs[i], pid)) continue;
-      enQ(qs[deadQ], pluck(qs[i], pid));
-      updateState(qs[deadQ]->back, terminated, time);
-      if (i == runQ) {
-         enQ(qs[runQ], deQ(qs[readyQ]));
-         updateState(qs[runQ]->back, running, time);
-      }
+      enQ(qs[deadQ], pluck(qs[i], pid), terminated, time);
+      if (i == runQ) enQ(qs[runQ], deQ(qs[readyQ]), running, time);
    }
 }
 
