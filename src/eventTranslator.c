@@ -28,12 +28,12 @@ typedef enum indices {
  * Returns the enum representation (int) of an event type.
  */
 int getEventType(char **event) {
-   const char *type = event[typeIdx];
-   if (strncmp(type, CREATE, 1) == 0) return createProc;
-   if (strncmp(type, EXIT, 1) == 0) return exitProc;
-   if (strncmp(type, REQUEST, 1) == 0) return reqRes;
-   if (strncmp(type, INTERRUPT, 1) == 0) return interruptProc;
-   if (strncmp(type, TIMER, 1) == 0) return timerInterrupt;
+   const char *eventType = event[typeIdx];
+   if (strncmp(eventType, CREATE, 1) == 0) return createProc;
+   if (strncmp(eventType, EXIT, 1) == 0) return exitProc;
+   if (strncmp(eventType, REQUEST, 1) == 0) return reqRes;
+   if (strncmp(eventType, INTERRUPT, 1) == 0) return interruptProc;
+   if (strncmp(eventType, TIMER, 1) == 0) return timerInterrupt;
    return -1;
 }
 
@@ -41,9 +41,9 @@ int getEventType(char **event) {
  * Strips the time from an event, returns it as an int.
  */
 int getEventTime(char **event) {
-   int timeNum;
-   if (toNum(event[timeIdx], &timeNum) == EXIT_FAILURE) return -1;
-   return timeNum;
+   int eventTime;
+   if (toNum(event[timeIdx], &eventTime) == EXIT_FAILURE) return -1;
+   return eventTime;
 }
 
 /**
