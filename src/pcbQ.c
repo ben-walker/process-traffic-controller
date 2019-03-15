@@ -21,11 +21,12 @@ PCB *newPCB(int pid, int time, pcbStates state) {
    return p;
 }
 
-void enQ(Q *q, PCB *p) {
+void enQ(Q *q, PCB *p, pcbStates newState, int time) {
    if (p == NULL) return;
    isEmpty(q) ? (q->front = p) : (q->back->next = p);
    q->back = p;
    q->length += 1;
+   updateState(p, newState, time);
 }
 
 PCB *deQ(Q *q) {

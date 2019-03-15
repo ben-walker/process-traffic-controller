@@ -28,7 +28,7 @@ Q *newQ();
 
 PCB *newPCB(int pid, int time, pcbStates state);
 
-void enQ(Q *q, PCB *p);
+void enQ(Q *q, PCB *p, pcbStates newState, int time);
 
 PCB *deQ(Q *q);
 
