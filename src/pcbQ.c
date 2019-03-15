@@ -24,26 +24,26 @@ Q *newQ() {
  * Allocate and initialize a new PCB.
  */
 PCB *newPCB(int pid, int time, pcbStates state) {
-   PCB *p = malloc(sizeof(PCB));
-   if (p == NULL) fatal("malloc");
-   p->pid = pid;
-   p->next = NULL;
-   p->state = state;
-   p->stateStartTime = time;
-   p->readyTime = p->runTime = p->blockTime = 0;
-   return p;
+   PCB *pcb = malloc(sizeof(PCB));
+   if (pcb == NULL) fatal("malloc");
+   pcb->pid = pid;
+   pcb->next = NULL;
+   pcb->state = state;
+   pcb->stateStartTime = time;
+   pcb->readyTime = pcb->runTime = pcb->blockTime = 0;
+   return pcb;
 }
 
 /**
  * Add a PCB to the back of a queue.
  */
-void enQ(Q *q, PCB *p, pcbStates newState, int time) {
-   if (p == NULL) return;
+void enQ(Q *q, PCB *pcb, pcbStates newState, int time) {
+   if (pcb == NULL) return;
    // if there's nothing in the queue, add PCB to the front
-   isEmpty(q) ? (q->front = p) : (q->back->next = p);
-   q->back = p;
+   isEmpty(q) ? (q->front = pcb) : (q->back->next = pcb);
+   q->back = pcb;
    q->length += 1;
-   updateState(p, newState, time);
+   updateState(pcb, newState, time);
 }
 
 /**
@@ -51,13 +51,13 @@ void enQ(Q *q, PCB *p, pcbStates newState, int time) {
  */
 PCB *deQ(Q *q) {
    if (isEmpty(q)) return NULL;
-   PCB *top = q->front;
+   PCB *pcb = q->front;
 
    q->front = q->front->next;
    if (q->front == NULL) q->back = NULL; // if resultant queue is empty, set back to null
    q->length -= 1;
-   top->next = NULL; // delink PCB from the rest of the queue
-   return top;
+   pcb->next = NULL; // delink PCB from the rest of the queue
+   return pcb;
 }
 
 /**
@@ -65,19 +65,19 @@ PCB *deQ(Q *q) {
  */
 PCB *pluck(Q *q, int pid) {
    if (q->front->pid == pid) return deQ(q); // if first PCB is the target, just use dequeue
-   PCB *prev, *top = q->front;
+   PCB *prev, *pcb = q->front;
 
-   while (top != NULL && top->pid != pid) { // loop until target PCB or end of queue
-      prev = top;
-      top = top->next;
+   while (pcb != NULL && pcb->pid != pid) { // loop until target PCB or end of queue
+      prev = pcb;
+      pcb = pcb->next;
    }
 
-   if (top == NULL) return NULL; // check for end of queue
+   if (pcb == NULL) return NULL; // check for end of queue
    // de-link PCB and return it
-   prev->next = top->next;
-   top->next = NULL;
+   prev->next = pcb->next;
+   pcb->next = NULL;
    q->length -= 1;
-   return top;
+   return pcb;
 }
 
 /**
@@ -89,8 +89,8 @@ void printQ(Q *q) {
       return;
    }
    printf("front <- ");
-   for (PCB *p = q->front; p; p = p->next)
-      printf("[%d] ", p->pid);
+   for (PCB *pcb = q->front; pcb; pcb = pcb->next)
+      printf("[%d] ", pcb->pid);
    printf("<- back\n");
 }
 
@@ -100,10 +100,10 @@ void printQ(Q *q) {
  */
 int calcProc0(Q *q) {
    int sysTime = 0, procTime = 0;
-   for (PCB *p = q->front; p; p = p->next) {
-      procTime += p->runTime; // tally running time of all processes
+   for (PCB *pcb = q->front; pcb; pcb = pcb->next) {
+      procTime += pcb->runTime; // tally running time of all processes
       // the last (largest) state transition time will be the total system running time
-      sysTime = p->stateStartTime > sysTime ? p->stateStartTime : sysTime;
+      sysTime = pcb->stateStartTime > sysTime ? pcb->stateStartTime : sysTime;
    }
    return sysTime - procTime;
 }
@@ -113,8 +113,8 @@ int calcProc0(Q *q) {
  */
 void printQTimings(Q *q) {
    printf("0 %d\n", calcProc0(q));
-   for (PCB *p = q->front; p; p = p->next)
-      printf("%d %d %d %d\n", p->pid, p->runTime, p->readyTime, p->blockTime);
+   for (PCB *pcb = q->front; pcb; pcb = pcb->next)
+      printf("%d %d %d %d\n", pcb->pid, pcb->runTime, pcb->readyTime, pcb->blockTime);
 }
 
 /**
@@ -138,8 +138,8 @@ bool isEmpty(Q *q) {
  * Returns true if the queue has a process with a given PID.
  */
 bool hasProcess(Q *q, int pid) {
-   for (PCB *p = q->front; p; p = p->next)
-      if (p->pid == pid) return true;
+   for (PCB *pcb = q->front; pcb; pcb = pcb->next)
+      if (pcb->pid == pid) return true;
    return false;
 }
 
@@ -153,25 +153,25 @@ int length(Q *q) {
 /**
  * Updates the state and time totals of a PCB.
  */
-void updateState(PCB *p, pcbStates newState, int time) {
-   if (p == NULL) return;
-   pcbStates oldState = p->state;
-   int oldTime = p->stateStartTime;
-   p->state = newState;
-   p->stateStartTime = time;
+void updateState(PCB *pcb, pcbStates newState, int newTime) {
+   if (pcb == NULL) return;
+   pcbStates oldState = pcb->state;
+   int oldTime = pcb->stateStartTime;
+   pcb->state = newState;
+   pcb->stateStartTime = newTime;
 
-   int timeDiff = time - oldTime; // difference between start of the old state and start of the new state
+   int timeDiff = newTime - oldTime; // difference between start of the old state and start of the new state
    switch (oldState) { // add the time difference to the appropriate total based on previous state
       case ready:
-         p->readyTime += timeDiff;
+         pcb->readyTime += timeDiff;
          break;
 
       case running:
-         p->runTime += timeDiff;
+         pcb->runTime += timeDiff;
          break;
 
       case blocked:
-         p->blockTime += timeDiff;
+         pcb->blockTime += timeDiff;
          break;
 
       case terminated:
@@ -183,9 +183,9 @@ void updateState(PCB *p, pcbStates newState, int time) {
  * Free the memory associated with a queue and its processes.
  */
 void freeQ(Q *q) {
-   PCB *p;
-   while ((p = deQ(q)))
-      free(p);
+   PCB *pcb;
+   while ((pcb = deQ(q)))
+      free(pcb);
    free(q);
 }
 
