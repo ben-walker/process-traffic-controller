@@ -21,8 +21,7 @@ char **parseLine() {
    if (delimLine == NULL) fatal("malloc");
 
    for (tok = strtok_r(line, " ", &saved); tok; tok = strtok_r(NULL, " ", &saved)) {
-      if (count == MAX_ELEMS)
-         break;
+      if (count == MAX_ELEMS) break;
       delimLine[count++] = strdup(tok);
       delimLine[count] = NULL;
    }
