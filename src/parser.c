@@ -23,8 +23,8 @@ char **parseLine() {
    for (tok = strtok_r(line, " ", &saved); tok; tok = strtok_r(NULL, " ", &saved)) {
       if (count == MAX_ELEMS)
          break;
-      delimLine[count] = strdup(tok);
-      count += 1;
+      delimLine[count++] = strdup(tok);
+      delimLine[count] = NULL;
    }
    free(line);
    return delimLine;
