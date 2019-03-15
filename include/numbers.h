@@ -8,6 +8,6 @@
 #ifndef NUMBERS_
 #define NUMBERS_
 
-int toNum(const char *val, int *numeric);
+int toNum(const char *string, int *numeric);
 
 #endif // NUMBERS

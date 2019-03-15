@@ -35,7 +35,7 @@ Q *newQ();
 
 PCB *newPCB(int pid, int time, pcbStates state);
 
-void enQ(Q *q, PCB *p, pcbStates newState, int time);
+void enQ(Q *q, PCB *pcb, pcbStates newState, int time);
 
 PCB *deQ(Q *q);
 
@@ -51,7 +51,7 @@ bool hasProcess(Q *q, int pid);
 
 int length(Q *q);
 
-void updateState(PCB *p, pcbStates newState, int time);
+void updateState(PCB *pcb, pcbStates newState, int newTime);
 
 void printQTimings(Q *q);
 
