@@ -8,12 +8,10 @@
 #include <string.h>
 
 void newProcess(int pid, int time, Q *qs[]) {
-   if (pid < 1)
-      return;
-   if (isEmpty(qs[runQ]))
-      enQ(qs[runQ], newPCB(pid, time, running));
-   else
-      enQ(qs[readyQ], newPCB(pid, time, ready));
+   if (pid < 1) return;
+   isEmpty(qs[runQ])
+      ? enQ(qs[runQ], newPCB(pid, time, running))
+      : enQ(qs[readyQ], newPCB(pid, time, ready));
 }
 
 void timeInterrupt(int time, Q *qs[]) {
@@ -51,13 +49,12 @@ void resourceInterrupt(int pid, int res, int time, Q *qs[]) {
 
 void removeProcess(int pid, int time, Q *qs[]) {
    for (int i = runQ; i < res5Q; i += 1) {
-      if (hasProcess(qs[i], pid)) {
-         enQ(qs[deadQ], pluck(qs[i], pid));
-         updateState(qs[deadQ]->back, terminated, time);
-         if (i == runQ) {
-            enQ(qs[runQ], deQ(qs[readyQ]));
-            updateState(qs[runQ]->back, running, time);
-         }
+      if (!hasProcess(qs[i], pid)) continue;
+      enQ(qs[deadQ], pluck(qs[i], pid));
+      updateState(qs[deadQ]->back, terminated, time);
+      if (i == runQ) {
+         enQ(qs[runQ], deQ(qs[readyQ]));
+         updateState(qs[runQ]->back, running, time);
       }
    }
 }
