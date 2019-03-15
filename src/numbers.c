@@ -12,13 +12,13 @@
 /**
  * Convert a string to an integer.
  */
-int toNum(const char *val, int *numeric) {
-   if (!val) return EXIT_FAILURE;
+int toNum(const char *string, int *numeric) {
+   if (!string) return EXIT_FAILURE;
    char *end = NULL;
-   long converted = strtol(val, &end, 0);
+   long converted = strtol(string, &end, 0);
 
    // check for strtol errors
-   if (converted == LONG_MAX || converted == LONG_MIN || end == val)
+   if (converted == LONG_MAX || converted == LONG_MIN || end == string)
       return EXIT_FAILURE;
    *numeric = converted;
    return EXIT_SUCCESS;
