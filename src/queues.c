@@ -1,5 +1,15 @@
+/**
+ * Ben Walker
+ * CIS*3110
+ * 
+ * Simple library to hold information about the available queues.
+ */
+
 #include "queues.h"
 
+/**
+ * Translate a resource # (1-5) to the index of that resource's queue.
+ */
 int resourceToQIndex(int resource) {
    switch (resource) {
       case 1: return res1Q;
