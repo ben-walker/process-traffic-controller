@@ -17,47 +17,38 @@ PCB *newPCB(int pid, int time, pcbStates state) {
    p->next = NULL;
    p->state = state;
    p->stateStartTime = time;
-   p->readyTime = 0;
-   p->runTime = 0;
-   p->blockTime = 0;
+   p->readyTime = p->runTime = p->blockTime = 0;
    return p;
 }
 
 void enQ(Q *q, PCB *p) {
-   if (p == NULL)
-      return;
-   if (isEmpty(q))
-      q->front = q->back = p;
-   else {
-      q->back->next = p;
-      q->back = p;
-   }
+   if (p == NULL) return;
+   isEmpty(q) ? (q->front = p) : (q->back->next = p);
+   q->back = p;
    q->length += 1;
 }
 
 PCB *deQ(Q *q) {
-   if (isEmpty(q))
-      return NULL;
+   if (isEmpty(q)) return NULL;
    PCB *top = q->front;
+
    q->front = q->front->next;
-   if (q->front == NULL)
-      q->back = NULL;
+   if (q->front == NULL) q->back = NULL;
    q->length -= 1;
    top->next = NULL;
    return top;
 }
 
 PCB *pluck(Q *q, int pid) {
-   if (q->front->pid == pid)
-      return deQ(q);
-
+   if (q->front->pid == pid) return deQ(q);
    PCB *prev, *top = q->front;
+
    while (top != NULL && top->pid != pid) {
       prev = top;
       top = top->next;
    }
-   if (top == NULL)
-      return NULL;
+
+   if (top == NULL) return NULL;
    prev->next = top->next;
    top->next = NULL;
    q->length -= 1;
@@ -102,10 +93,8 @@ bool isEmpty(Q *q) {
 }
 
 bool hasProcess(Q *q, int pid) {
-   for (PCB *p = q->front; p; p = p->next) {
-      if (p->pid == pid)
-         return true;
-   }
+   for (PCB *p = q->front; p; p = p->next)
+      if (p->pid == pid) return true;
    return false;
 }
 
@@ -114,8 +103,7 @@ int length(Q *q) {
 }
 
 void updateState(PCB *p, pcbStates newState, int time) {
-   if (p == NULL)
-      return;
+   if (p == NULL) return;
    pcbStates oldState = p->state;
    int oldTime = p->stateStartTime;
    p->state = newState;
@@ -154,11 +142,9 @@ void freeQs(Q *qs[], size_t size) {
 
 // Adapted from: https://stackoverflow.com/a/21390410
 void sortQ(Q *q, PCB **head) {
+   if (length(q) <= 1) return;
    bool done = false;
    PCB **prev, *curr, *next;
-
-   if (isEmpty(q) || length(q) == 1)
-      return;
 
    while (!done) {
       prev = head;
