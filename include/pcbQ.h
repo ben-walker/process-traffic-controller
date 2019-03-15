@@ -1,21 +1,28 @@
+/**
+ * Ben Walker
+ * CIS*3110
+ * 
+ * Library to manage queues and the elements (PCBs) within them.
+ */
+
 #ifndef PCB_QUEUE_
 #define PCB_QUEUE_
 
 #include <stdbool.h>
 #include <stdlib.h>
 
-typedef enum pcbStates {
+typedef enum pcbStates { // all valid process states
    ready,
    running,
    blocked,
    terminated
 } pcbStates;
 
-typedef struct PCB {
+typedef struct PCB { // PCB = process control block
    int pid;
    struct PCB *next;
    pcbStates state;
-   int stateStartTime;
+   int stateStartTime; // the time the current state started
    int readyTime, runTime, blockTime;
 } PCB;
 
