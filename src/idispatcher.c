@@ -3,9 +3,6 @@
 #include "pcbQ.h"
 #include "eventTranslator.h"
 #include "queues.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 void newProcess(int pid, int time, Q *qs[]) {
    if (pid < 1) return;
