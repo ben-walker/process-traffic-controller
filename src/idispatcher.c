@@ -2,31 +2,10 @@
 #include "parser.h"
 #include "pcbQ.h"
 #include "eventTranslator.h"
+#include "queues.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-typedef enum queues {
-   runQ,
-   readyQ,
-   res1Q,
-   res2Q,
-   res3Q,
-   res4Q,
-   res5Q,
-   deadQ
-} queues;
-
-int resNumToQIdx(int res) {
-   switch (res) {
-      case 1: return res1Q;
-      case 2: return res2Q;
-      case 3: return res3Q;
-      case 4: return res4Q;
-      case 5: return res5Q;
-   }
-   return -1;
-}
 
 void newProcess(int pid, int time, Q *qs[]) {
    if (pid < 1)
@@ -55,11 +34,11 @@ void requestResource(int pid, int res, int time, Q *qs[]) {
    else
       return;
    updateState(p, blocked, time);
-   enQ(qs[resNumToQIdx(res)], p);
+   enQ(qs[resourceToQIndex(res)], p);
 }
 
 void resourceInterrupt(int pid, int res, int time, Q *qs[]) {
-   int resQ = resNumToQIdx(res);
+   int resQ = resourceToQIndex(res);
    PCB *p = pluck(qs[resQ], pid);
    if (isEmpty(qs[runQ])) {
       updateState(p, running, time);
